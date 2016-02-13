@@ -1,0 +1,10 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# node-waf configuration
+.lock-wscript
+
+# Dependency directory
+node_modules
