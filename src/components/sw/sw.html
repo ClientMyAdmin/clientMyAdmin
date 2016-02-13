@@ -1,0 +1,68 @@
+<section layout="column" layout-fill>
+
+	<md-toolbar class="md-menu-toolbar">
+		<div layout="row">
+			<md-toolbar-filler layout layout-align="center center">
+				<a href="#/">
+					<md-icon>home</md-icon>
+				</a>
+			</md-toolbar-filler>
+			<div>
+				<h2 class="md-toolbar-tools">Service worker</h2>
+				<md-menu-bar>
+					<md-menu>
+						<button ng-click="$mdOpenMenu()">
+							<b>Service worker</b>
+						</button>
+						<md-menu-content>
+							<md-menu-item>
+								<md-button target="_blank" ng-href="http://caniuse.com/serviceworker">Can i use</md-button>
+							</md-menu-item>
+						</md-menu-content>
+					</md-menu>
+					<md-menu>
+						<button ng-click="$mdOpenMenu()">
+							Arcive
+						</button>
+						<md-menu-content>
+							<md-menu-item>
+								<md-button ng-click="sw.add()">New service worker</md-button>
+							</md-menu-item>
+							<md-menu-item>
+								<md-button ng-click="sw.clear()">Delete everything</md-button>
+							</md-menu-item>
+						</md-menu-content>
+					</md-menu>
+				</md-menu-bar>
+			</div>
+		</div>
+	</md-toolbar>
+
+	<div style="background-color:#f1f1f1" flex wis-file="fs.opts">
+		<md-card style="padding: 16px;">
+			<div ng-repeat="worker in sw.workers">
+				<b><a href="{{worker.active.scriptURL}}" target="_blank">{{worker.active.scriptURL}}</b>
+				(<a href="{{worker.scope}}" target="_blank">{{worker.scope}}</a>)<br>
+				<!-- state: {{worker.active.state}} -->
+
+				<!-- <md-switch ng-model="worker.active.$$active" ng-change="sw.toggle(worker)" aria-label="x" ng-model-options="{ getterSetter: true }">
+					{{worker.active.state}}
+				</md-switch> -->
+				
+				<md-button ng-if="worker.active.$$active" ng-click="sw.toggle(worker)">
+					Disable
+				</md-button>
+
+				<md-button ng-if="!worker.active.$$active" ng-click="sw.toggle(worker)">
+					Enable
+				</md-button>
+
+				<md-button ng-click="worker.update()">
+					Reload
+				</md-button>
+
+			</div>
+		</md-card>
+	</div>
+
+</section>

@@ -1,0 +1,35 @@
+<md-dialog style="width:500px">
+	<form name="form" ng-submit="$mdDialog.hide(version)">
+		<md-toolbar>
+			<div class="md-toolbar-tools">
+				<h2>Change version</h2>
+				<span flex></span>
+				<md-button formnovalidate="formnovalidate" type="button" class="md-icon-button" ng-click="$mdDialog.cancel()" aria-label="Close dialog">
+					<md-icon>close</md-icon>
+				</md-button>
+			</div>
+		</md-toolbar>
+		<md-dialog-content>
+			<div class="md-dialog-content">
+				<md-input-container>
+					<label>Version</label>
+					<input type="number" min="1" name="version" blacklist="::[current]" ng-model="version" required validity>
+					<div ng-messages="form.version.$error">
+						<div ng-message="blacklist">This is the current version</div>
+						<div ng-message="validity">{{form.version._validationMessage}}</div>
+						<div ng-message="min">Value must be greater than or equal to 1.</div>
+						<div ng-message="required">This is required.</div>
+					</div>
+				</md-input-container>
+			</div>
+		</md-dialog-content>
+		<div class="md-actions" layout="row">
+			<span flex></span>
+			<md-button ng-disabled="form.$invalid" style="margin-right:20px;">
+				Useful
+			</md-button>
+		</div>
+	</form>
+</md-dialog>
+
+

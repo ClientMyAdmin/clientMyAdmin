@@ -1,0 +1,102 @@
+<md-dialog ng-init="store={auto:'',name:'',keyPath:''}">
+	<form name="storeForm" ng-submit="answer(store)">
+		<md-toolbar>
+			<div class="md-toolbar-tools">
+				<h2>Add Table</h2>
+				<span flex></span>
+				<md-button formnovalidate="formnovalidate" type="button" class="md-icon-button" ng-click="cancel()" aria-label="Close dialog">
+					<md-icon>close</md-icon>
+				</md-button>
+			</div>
+		</md-toolbar>
+		<md-dialog-content style="width: 800px;max-height:810px;" ng-switch="::type">
+
+			<div ng-switch-when="sql">
+				<div layout layout-sm="column">
+					<md-input-container flex>
+						<label>Name</label>
+						<input required name="name" blacklist="blacklisted" ng-model="store.name">
+						<div ng-messages="storeForm.name.$error">
+							<div ng-message="required">This is required.</div>
+							<div ng-message="blacklist">The table already exist. (you need to delete it first)</div>
+						</div>
+					</md-input-container>
+				</div>
+
+
+				<div layout layout-sm="column">
+					<md-input-container flex>
+						<label>Column name</label>
+						<input required name="cName0" blacklist="blacklisted" ng-model="store.column[0].name">
+						<div ng-messages="storeForm.cName0.$error">
+							<div ng-message="required">This is required.</div>
+						</div>
+					</md-input-container>
+					<md-input-container flex>
+						<label>Type</label>
+						<md-select ng-model="store.column[0].type">
+							<md-option>Text</md-option>
+						</md-select>
+					</md-input-container>
+					<div flex>
+						
+						<md-button type="button" class="md-icon-button">
+							<md-icon>vpn_key</md-icon>
+						</md-button>
+						
+						<md-button class="md-icon-button">
+							<md-icon>add</md-icon>
+						</md-button>
+
+						<md-button class="md-icon-button">
+							<md-icon>not_interested</md-icon>
+						</md-button>
+
+						<md-button class="md-icon-button">
+							<md-icon>location_on</md-icon>
+						</md-button>
+					
+					</div>
+				</div>
+
+				<!-- {{store | json}} -->
+
+				<md-checkbox ng-model="store.auto">
+					<md-tooltip>By default, every row in SQLite has a special column, usually called the "rowid", that uniquely identifies that row within the table</md-tooltip>
+					Without rowid
+				</md-checkbox>
+
+			</div>
+
+			<div ng-switch-default>
+
+				<div layout layout-sm="column">
+					<md-input-container flex>
+						<label>Name</label>
+						<input required name="name" blacklist="blacklisted" ng-model="store.name">
+						<div ng-messages="storeForm.name.$error">
+							<div ng-message="required">This is required.</div>
+							<div ng-message="blacklist">The table already exist. (you need to delete it first)</div>
+						</div>
+					</md-input-container>
+					<md-input-container flex>
+						<label>Key path</label>
+						<input ng-model="store.keyPath">
+					</md-input-container>
+				</div>
+
+				<md-checkbox ng-model="store.auto" ng-true-value="'++'" ng-false-value="''">
+					<md-tooltip>If true, the object store has a key generator. Defaults to false.</md-tooltip>
+					Auto Increment
+				</md-checkbox>
+
+			</div>
+		</md-dialog-content>
+		<div class="md-actions" layout="row">
+			<span flex></span>
+			<md-button ng-disabled="storeForm.$invalid" style="margin-right:20px;">
+				Useful
+			</md-button>
+		</div>
+	</form>
+</md-dialog>

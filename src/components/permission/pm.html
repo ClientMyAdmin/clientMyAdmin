@@ -1,0 +1,123 @@
+<section layout="column" layout-fill>
+
+
+	<md-toolbar class="md-menu-toolbar">
+		<div layout="row">
+			<md-toolbar-filler layout layout-align="center center">
+				<a href="#/">
+					<md-icon>home</md-icon>
+				</a>
+			</md-toolbar-filler>
+			<div>
+				<h2 class="md-toolbar-tools">Permissions</h2>
+				<md-menu-bar>
+					<md-menu>
+						<button ng-click="$mdOpenMenu()">
+							<b>Permissions</b>
+						</button>
+						<md-menu-content>
+							<md-menu-item>
+								<md-menu>
+									<md-button ng-click="$mdOpenMenu()">Can i use</md-button>
+									<md-menu-content>
+										<md-menu-item><md-button target="_blank" ng-href="http://caniuse.com/geolocation">Geo location</md-button></md-menu-item>
+										<md-menu-item><md-button target="_blank" ng-href="http://caniuse.com/notification">Notification</md-button></md-menu-item>
+										<md-menu-item><md-button target="_blank" ng-href="http://caniuse.com/push%20api">Push</md-button></md-menu-item>
+										<md-menu-item><md-button target="_blank" ng-href="http://caniuse.com/midi">Midi</md-button></md-menu-item>
+										<md-menu-item><md-button target="_blank" ng-href="http://caniuse.com/stream">Media Stream (camera, audio)</md-button></md-menu-item>
+									</md-menu-content>
+								</md-menu>
+							</md-menu-item>
+						</md-menu-content>
+					</md-menu>
+				</md-menu-bar>
+			</div>
+		</div>
+	</md-toolbar>
+
+	<!-- <md-sidenav ng-if="false" class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')">
+		<md-toolbar class="md-tall md-theme-indigo">
+			<h1 class="md-toolbar-tools">SQLite {{db.tables[0].sqlite_version}}</h1>
+			<select
+				ng-model="db.database"
+				ng-change="db.go(db.database.name)"
+				ng-options="v.name for (k, v) in db.databases">
+				<option value disabled>-- select a database --</option>
+			</select>
+		</md-toolbar>
+		<md-content layout-padding ng-controller="LeftCtrl">
+			<md-list>
+				<md-list-item ng-repeat="table in db.tables" ng-click="db.go(db.database+'/'+db.version+'/'+table.name)">
+					<md-icon>grid_on</md-icon>
+					<p ng-bind="::table.name"></p>
+				</md-list-item>
+			</md-list>
+		</md-content>
+	</md-sidenav> -->
+
+	<div style="background-color:#f1f1f1" flex>
+		<md-card>
+			<div>
+				<md-switch ng-model="pm.geo.setter" aria-label="x" ng-disabled="pm.geo.state == 'granted' || pm.geo.state == 'denied' || pm.geo._state" ng-model-options="{ getterSetter: true }">
+					Geolocation  ({{pm.geo._state || pm.geo.state}}<span ng-if="pm.geo._state">&nbsp;- Just need to <a href="javascript:location.reload(true)">refresh</a> the page </span>)
+				</md-switch>
+
+				<md-switch ng-model="pm.noti.setter" aria-label="x" ng-disabled="pm.noti.state == 'granted' || pm.noti.state == 'denied'" ng-model-options="{ getterSetter: true }">
+					Notifications ({{pm.noti.state}})
+				</md-switch>
+
+				<md-switch ng-model="pm.push.setter" aria-label="x" ng-disabled="pm.push.state == 'granted' || pm.push.state == 'denied'" ng-model-options="{ getterSetter: true }">
+					Push ({{pm.push.state}}) 
+				</md-switch>
+
+				<md-switch ng-model="pm.midi.setter" aria-label="x" ng-disabled="pm.midi.state == 'granted' || pm.midi.state == 'denied'" ng-model-options="{ getterSetter: true }">
+					Midi ({{pm.midi.state}})
+				</md-switch>
+
+				<md-switch ng-model="pm.midiSys.setter" aria-label="x" ng-disabled="pm.midiSys.state == 'granted' || pm.midiSys.state == 'denied'" ng-model-options="{ getterSetter: true }">
+					MidiSys ({{pm.midiSys.state}})
+				</md-switch>
+
+				<md-switch ng-model="pm.media.audio.setter" aria-label="x" ng-disabled="pm.media.audio.state == 'granted' || pm.media.audio.state == 'denied'" ng-model-options="{ getterSetter: true }">
+					Audio ({{pm.media.audio.state}})
+				</md-switch>
+
+				<md-switch ng-model="pm.media.video.setter" aria-label="x" ng-disabled="pm.media.video.state == 'granted' || pm.media.video.state == 'denied'" ng-model-options="{ getterSetter: true }">
+					Video ({{pm.media.video.state}})
+				</md-switch>
+				
+				<hr>
+
+				<div layout="row">
+					<div>
+						<md-switch ng-model="pm.pers.setter" aria-label="x" ng-disabled="pm.pers.state == 'granted' || pm.pers.state == 'denied'" ng-model-options="{ getterSetter: true }">
+							Persistent filesystem storage ({{pm.pers.state}}) 
+						</md-switch>
+					</div>
+					<div>
+						<md-input-container>
+							<label>Granted bytes</label>
+							<input type="number" ng-model="pm.pers.granted">
+						</md-input-container>
+					</div>
+				</div>
+
+				<div layout="row">
+					<div>
+						<md-switch ng-model="pm.temp.setter" aria-label="x" ng-disabled="pm.temp.state == 'granted' || pm.temp.state == 'denied'" ng-model-options="{ getterSetter: true }">
+							Temporary filesystem storage ({{pm.temp.state}}) 
+						</md-switch>
+					</div>
+					<div>
+						<md-input-container>
+							<label>Granted bytes</label>
+							<input type="number" disabled ng-model="pm.temp.granted">
+						</md-input-container>
+					</div>
+				</div>
+				
+			</div>
+		</md-card>
+	</div>
+
+</section>

@@ -1,0 +1,42 @@
+<section ng-controller="db.export as ctrl">
+	<form name="form" ng-submit="ctrl.execute()">
+
+		<md-card>
+			<h2 ng-if="!db.$route.current.params.table">Export tabels from database "{{::db.db.name}}"</h2>
+			<h2 ng-if="db.$route.current.params.table">Export rows from table "{{::db.$route.current.params.table}}"</h2>
+
+			<h4>Export method</h4>
+
+			<md-radio-group ng-model="ctrl.mode">
+				<md-radio-button value="fast" class="md-primary">Fast</md-radio-button>
+				<md-radio-button value="custom" ng-disabled="true" class="not-implemented">Custom - Show all options</md-radio-button>
+			</md-radio-group>
+			
+			<div ng-if="ctrl.mode == 'customx'">
+				hej
+			</div>
+
+			
+			<div layout="row">
+				<md-input-container>
+					<label>Format</label>
+					<md-select ng-model="ctrl.config.format">
+						<md-option value="vanilla">Vanilla javascript</md-option>
+						<md-option disabled value="dexie">Dexie.js</md-option>
+						<md-option disabled value="sql">sql</md-option>
+						<md-option disabled value="json">json</md-option>
+						<md-option disabled value="text">Texy! text</md-option>
+						<md-option disabled value="csv">CSV</md-option>
+					</md-select>
+				</md-input-container>
+			</div>
+			
+			<div layout="row">
+				<md-button class="md-primary">Execute</md-button>
+			</div>
+			
+		</md-card>
+
+	</form>
+	
+</section>

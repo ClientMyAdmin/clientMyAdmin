@@ -1,0 +1,89 @@
+@import url("https://gitcdn.xyz/repo/angular/bower-material/master/angular-material.min.css");
+@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+
+img{
+	max-width: 100%;
+}
+
+.not-implemented{
+    text-decoration: line-through !important;
+}
+
+md-card md-menu-item>a.md-button span{
+  line-height: 48px
+}
+
+.md-sidenav-right md-content{
+	background-color: #f5f5f5 !important;
+}
+
+md-data-table-toolbar > form > input {
+    width: 100%;
+    margin: 0;
+    border: none;
+    color: rgba(0, 0, 0, 0.87);
+}
+
+md-data-table-toolbar > form > input:focus {
+  outline: none;
+}
+
+md-data-table-toolbar > form {
+    margin: 0 0 0 16px;
+}
+
+md-data-table-toolbar.alternate {
+    color: #1e88e5;
+    background-color: #e3f2fd;
+}
+
+.gridListDynamicTiles md-icon {
+  width: 50%;
+  height: 50%; }
+.gridListDynamicTiles md-icon svg {
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%; }
+.gridListDynamicTiles .s64 {
+  font-size: 64px; }
+.gridListDynamicTiles .s32 {
+  font-size: 48px; }
+.gridListDynamicTiles md-icon.fa {
+  display: block;
+  padding-left: 0; }
+.gridListDynamicTiles md-icon.s32 span {
+  padding-left: 8px; }
+.gridListDynamicTiles md-grid-list {
+  margin: 8px; }
+.gridListDynamicTiles .gray {
+  background: #f5f5f5; }
+.gridListDynamicTiles .green {
+  background: #b9f6ca; }
+.gridListDynamicTiles .yellow {
+  background: #ffff8d; }
+.gridListDynamicTiles .blue {
+  background: #84ffff; }
+.gridListDynamicTiles .darkBlue {
+  background: #80d8ff; }
+.gridListDynamicTiles .deepBlue {
+  background: #448aff; }
+.gridListDynamicTiles .purple {
+  background: #b388ff; }
+.gridListDynamicTiles .lightPurple {
+  background: #8c9eff; }
+.gridListDynamicTiles .red {
+  background: #ff8a80; }
+.gridListDynamicTiles .pink {
+  background: #ff80ab; }
+.gridListDynamicTiles md-grid-tile md-icon {
+  padding-bottom: 32px; }
+.gridListDynamicTiles md-grid-tile md-grid-tile-footer {
+  background: rgba(0, 0, 0, 0.68);
+  height: 36px; }
+.gridListDynamicTiles md-grid-tile-footer figcaption {
+  width: 100%; }
+.gridListDynamicTiles md-grid-tile-footer figcaption h3 {
+  margin: 0;
+  font-weight: 700;
+  width: 100%;
+  text-align: center; }

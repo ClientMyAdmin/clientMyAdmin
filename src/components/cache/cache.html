@@ -1,0 +1,201 @@
+<section layout="column" layout-fill>
+
+
+	<md-toolbar class="md-menu-toolbar">
+		<div layout="row">
+			<md-toolbar-filler layout layout-align="center center">
+				<a href="#/">
+					<md-icon>home</md-icon>
+				</a>
+			</md-toolbar-filler>
+			<div>
+				<h2 class="md-toolbar-tools">
+					<a href="#/filesystem/{{fs.$routeParams.type}}">{{fs.$routeParams.type}}</a>
+					<a href="#/filesystem/{{fs.$routeParams.type}}/{{path.fullPath}}" ng-repeat="path in fs.pathArray">&nbsp;/&nbsp;{{path.name}}</a>
+				</h2>
+				<md-menu-bar>
+					<md-menu>
+						<button ng-click="$mdOpenMenu()">
+							<b>Filesystem</b>
+						</button>
+						<md-menu-content>
+							<md-menu-item>
+								<md-button ng-disabled="true" class="not-implemented" ng-click="ctrl.sampleAction('undo', $event)" disabled="disabled">About Filesystem API</md-button>
+							</md-menu-item>
+							<md-menu-item>
+								<md-button target="_blank" ng-href="http://caniuse.com/filesystem">Can i use</md-button>
+							</md-menu-item>
+							<md-menu-divider></md-menu-divider>
+							<md-menu-item>
+								<md-button ng-click="fs.clear()">Clear filesystem</md-button>
+							</md-menu-item>
+						</md-menu-content>
+					</md-menu>
+					<md-menu>
+						<button ng-click="$mdOpenMenu()">
+							Archive
+						</button>
+						<md-menu-content>
+							<md-menu-item>
+								<md-button ng-click="fs.createFolder()">
+									New folder
+									<span class="md-alt-text">{{ 'S-M-N' | keyboardShortcut }}</span>
+								</md-button>
+							</md-menu-item>
+							<md-menu-item>
+								<md-button ng-click="fs.createFile()">
+									New file
+								</md-button>
+							</md-menu-item>
+							<md-menu-item>
+								<md-button ng-disabled="true" class="not-implemented" ng-click="db.addTable($event)">
+									Show info
+									<span class="md-alt-text">{{ 'M-I' | keyboardShortcut }}</span>
+								</md-button>
+							</md-menu-item>
+							<md-menu-item>
+								<md-button ng-disabled="true" class="not-implemented" ng-click="db.addTable($event)">
+									Print
+									<span class="md-alt-text">{{ 'M-P' | keyboardShortcut }}</span>
+								</md-button>
+							</md-menu-item>
+							<md-menu-item>
+								<md-button ng-disabled="true" class="not-implemented" ng-click="db.addTable($event)">
+									Compress "selected"
+								</md-button>
+							</md-menu-item>
+							<md-menu-item>
+								<md-button ng-click="fs.dublicate()">
+									Dublicate
+									<span class="md-alt-text">{{ 'M-D' | keyboardShortcut }}</span>
+								</md-button>
+							</md-menu-item>
+							<md-menu-item>
+								<md-button ng-click="fs.deleteSelected()">
+									Delete
+									<span class="md-alt-text">{{ 'M-S' | keyboardShortcut }}</span>
+								</md-button>
+							</md-menu-item>
+							<md-menu-item>
+								<md-button  ng-disabled="true" class="not-implemented" ng-click="db.addTable($event)">
+									Search
+									<span class="md-alt-text">{{ 'M-F' | keyboardShortcut }}</span>
+								</md-button>
+							</md-menu-item>
+						</md-menu-content>
+					</md-menu>
+					<md-menu>
+						<button ng-disabled="true" ng-click="$mdOpenMenu()">
+							Edit
+						</button>
+						<md-menu-content>
+							<md-menu-item>
+								<md-button ng-click="db.deleteAll()">
+									Undo
+									<span class="md-alt-text">{{ 'M-Z' | keyboardShortcut }}</span>
+								</md-button>
+							</md-menu-item>
+							<md-menu-divider></md-menu-divider>
+							<md-menu-item>
+								<md-button ng-click="db.deleteAll()">
+									Cut
+									<span class="md-alt-text">{{ 'M-X' | keyboardShortcut }}</span>
+								</md-button>
+							</md-menu-item>
+							<md-menu-item>
+								<md-button ng-click="db.deleteAll()">
+									Copy "Selected"
+									<span class="md-alt-text">{{ 'M-C' | keyboardShortcut }}</span>
+								</md-button>
+							</md-menu-item>
+							<md-menu-item>
+								<md-button ng-click="db.deleteAll()">
+									Paste "Selected"
+									<span class="md-alt-text">{{ 'M-V' | keyboardShortcut }}</span>
+								</md-button>
+							</md-menu-item>
+						</md-menu-content>
+					</md-menu>
+					<md-menu>
+						<button ng-disabled="true" ng-click="$mdOpenMenu()">
+							View
+						</button>
+						<md-menu-content>
+							<md-menu-item>
+								<md-button ng-click="db.deleteAll()">
+									Thumbnails
+									<span class="md-alt-text">{{ 'M-1' | keyboardShortcut }}</span>
+								</md-button>
+							</md-menu-item>
+							<md-menu-item>
+								<md-button ng-click="db.deleteAll()">
+									Detail list
+									<span class="md-alt-text">{{ 'M-2' | keyboardShortcut }}</span>
+								</md-button>
+							</md-menu-item>
+							<md-menu-divider></md-menu-divider>
+							<md-menu-item>
+								<md-button ng-click="db.deleteAll()">
+									Fullscreen
+									<span class="md-alt-text">{{ 'M-S-F' | keyboardShortcut }}</span>
+								</md-button>
+							</md-menu-item>
+						</md-menu-content>
+					</md-menu>
+					<md-menu>
+						<button ng-disabled="true" ng-click="$mdOpenMenu()">
+							Go
+						</button>
+						<md-menu-content>
+							<md-menu-item>
+								<md-button ng-click="db.deleteAll()">
+									Parent folder
+									<span class="md-alt-text">{{ 'M-S-F' | keyboardShortcut }}</span>
+								</md-button>
+							</md-menu-item>
+							<md-menu-item>
+								<md-button ng-click="db.deleteAll()">
+									Go back
+									<span class="md-alt-text">{{ 'M-S-F' | keyboardShortcut }}</span>
+								</md-button>
+							</md-menu-item>
+							<md-menu-item>
+								<md-button ng-click="db.deleteAll()">
+									Go Forward
+									<span class="md-alt-text">{{ 'M-S-F' | keyboardShortcut }}</span>
+								</md-button>
+							</md-menu-item>
+							<md-menu-divider></md-menu-divider>
+							<md-menu-item>
+								<md-button ng-click="db.deleteAll()">
+									To folder
+									<span class="md-alt-text">{{ 'M-S-F' | keyboardShortcut }}</span>
+								</md-button>
+							</md-menu-item>
+						</md-menu-content>
+					</md-menu>
+				</md-menu-bar>
+			</div>
+		</div>
+	</md-toolbar>
+
+	<div style="background-color:#f1f1f1" flex>
+		<md-card>
+			<md-data-table-container>
+				<table md-row-select="selected" md-data-table md-progress="deferred" class="md-primary">
+					<thead md-order="query.order" md-trigger="onOrderChange">
+						<tr>
+							<th name="Title" order-by="name"></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="key in cache.keys | orderBy:query.order" ng-click="cache.open(key)">
+							<td>{{key.url || key}}</td>
+						</tr>
+					</tbody>
+				</table>
+			</md-data-table-container>
+		</md-card>
+	</div>
+
+</section>

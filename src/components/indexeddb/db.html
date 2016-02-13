@@ -1,0 +1,259 @@
+<section layout="column" layout-fill>
+
+
+	<md-toolbar class="md-menu-toolbar">
+		<div layout="row">
+			<md-toolbar-filler layout layout-align="center center">
+				<a href="#/">
+					<md-icon>home</md-icon>
+				</a>
+			</md-toolbar-filler>
+			<div>
+				<h2 class="md-toolbar-tools"><span ng-if="db.db">{{::db.db.name}} v{{db.db.v}}</span></h2>
+				<md-menu-bar>
+					<md-menu>
+						<button ng-click="$mdOpenMenu()">
+							<b>{{::(db.type === 'sql' ? 'SQLite' : 'IndexedDB')}}</b>
+						</button>
+						<md-menu-content>
+							<md-menu-item>
+								<md-button class="not-implemented" ng-click="ctrl.sampleAction('undo', $event)" disabled="disabled">About {{::(db.type === 'sql' ? 'SQLite' : 'IndexedDB')}}</md-button>
+							</md-menu-item>
+							<md-menu-item>
+								<md-button target="_blank" ng-href="http://caniuse.com/{{::db.type}}">Can i use</md-button>
+							</md-menu-item>
+							<md-menu-item>
+								<md-button target="_blank" ng-href="https://codepen.io/cemerick/embed/Itymi/">Unit testing</md-button>
+							</md-menu-item>
+							<md-menu-divider></md-menu-divider>
+							<md-menu-item>
+								<md-button ng-click="db.deleteAll()">Delete all databases</md-button>
+							</md-menu-item>
+						</md-menu-content>
+					</md-menu>
+					<md-menu>
+						<button ng-click="$mdOpenMenu()">
+							File
+						</button>
+						<md-menu-content>
+							<md-menu-item>
+								<md-menu>
+									<md-button ng-click="$mdOpenMenu()">New</md-button>
+									<md-menu-content>
+										<md-menu-item><md-button ng-click="db.newDatabase()">
+											Database
+											<span class="md-alt-text">{{ 'M-N' | keyboardShortcut }}</span>
+										</md-button></md-menu-item>
+										<md-menu-item><md-button ng-disabled="!db.db" ng-click="db.addTable($event)">
+											Table
+											<span class="md-alt-text">{{ 'M-T' | keyboardShortcut }}</span>
+										</md-button></md-menu-item>
+										<md-menu-item><md-button class="not-implemented" disabled="disabled" ng-click="ctrl.sampleAction('New Presentation', $event)">
+											Index
+											<span class="md-alt-text">{{ 'M-I' | keyboardShortcut }}</span>
+										</md-button></md-menu-item>
+										<md-menu-item><md-button ng-disabled="!db.table" ng-click="db.addRow($event)">
+											Row
+											<span class="md-alt-text">{{ 'M-R' | keyboardShortcut }}</span>
+										</md-button></md-menu-item>
+									</md-menu-content>
+								</md-menu>
+							</md-menu-item>
+							<md-menu-item>
+								<md-menu ng-if="::db.type != 'sql'">
+									<md-button ng-click="$mdOpenMenu()">Open database</md-button>
+									<md-menu-content>
+										<md-menu-item ng-class="{'md-indent': db.db}" ng-repeat="database in db.databases">
+											<md-icon ng-if="db.db.name === database.name">check</md-icon>
+											<md-button ng-href="#/{{db.type}}/{{database.name}}/" ng-click="ctrl.sampleAction('New Document', $event)">
+												{{database.name}} v{{database.version}}
+											</md-button>
+										</md-menu-item>
+									</md-menu-content>
+								</md-menu>
+								<md-button ng-if="::db.type == 'sql'" ng-click="db.open()">
+									Open database
+									<span class="md-alt-text"> {{ 'M-O' | keyboardShortcut }}</span>
+								</md-button>
+							</md-menu-item>
+							<md-menu-divider></md-menu-divider>
+							<md-menu-item>
+								<md-button class="not-implemented" disabled="disabled" ng-click="ctrl.sampleAction('Open', $event)">
+									Import
+								</md-button>
+							</md-menu-item>
+							<md-menu-item>
+								<md-button ng-disabled="!db.db" ng-href="#/{{db.type}}/{{db.db.name}}/export">
+									Export
+								</md-button>
+							</md-menu-item>
+							<md-menu-divider></md-menu-divider>
+							<md-menu-item>
+								<md-button class="not-implemented" disabled="disabled" ng-click="ctrl.sampleAction('Print', $event)">
+									Print
+									<span class="md-alt-text">{{ 'M-P' | keyboardShortcut }}</span>
+								</md-button>
+							</md-menu-item>
+						</md-menu-content>
+					</md-menu>
+					<md-menu ng-if="false">
+						<button ng-click="$mdOpenMenu()">
+							Edit
+						</button>
+						<md-menu-content>
+							<md-menu-item class="md-indent">
+								<md-icon>undo</md-icon>
+								<md-button ng-click="ctrl.sampleAction('undo', $event)">
+									Undo
+									<span class="md-alt-text">{{ 'M-Z' | keyboardShortcut }}</span>
+								</md-button>
+							</md-menu-item>
+							<md-menu-item class="md-indent">
+								<md-icon>redo</md-icon>
+								<md-button ng-click="ctrl.sampleAction('redo', $event)">
+									Redo
+									<span class="md-alt-text">{{ 'M-Y' | keyboardShortcut }}</span>
+								</md-button>
+							</md-menu-item>
+							<md-menu-divider></md-menu-divider>
+							<md-menu-item class="md-indent">
+								<md-icon>content_cut</md-icon>
+								<md-button ng-click="ctrl.sampleAction('cut', $event)">
+									Cut
+									<span class="md-alt-text">{{ 'M-X' | keyboardShortcut }}</span>
+								</md-button>
+							</md-menu-item>
+							<md-menu-item class="md-indent">
+								<md-icon>content_copy</md-icon>
+								<md-button ng-click="ctrl.sampleAction('copy', $event)">
+									Copy
+									<span class="md-alt-text">{{ 'M-C' | keyboardShortcut }}</span>
+								</md-button>
+							</md-menu-item>
+							<md-menu-item class="md-indent">
+								<md-icon>content_paste</md-icon>
+								<md-button ng-click="ctrl.sampleAction('paste', $event)">
+									Paste
+									<span class="md-alt-text">{{ 'M-P' | keyboardShortcut }}</span>
+								</md-button>
+							</md-menu-item>
+							<md-menu-divider></md-menu-divider>
+							<md-menu-item class="md-indent">
+								<md-button ng-click="ctrl.sampleAction('Find and replace', $event)">
+									Find and replace...
+									<span class="md-alt-text">{{ 'M-S-H' | keyboardShortcut }}</span>
+								</md-button>
+							</md-menu-item>
+						</md-menu-content>
+					</md-menu>
+					<md-menu>
+						<button ng-click="$mdOpenMenu()">
+							Database
+						</button>
+						<md-menu-content>
+							<md-menu-item>
+								<md-button ng-disabled="!db.db" ng-click="db.rename()">
+									Rename
+								</md-button>
+							</md-menu-item>
+							<md-menu-item>
+								<md-button ng-click="db.deleteDatabase()">
+									Delete
+								</md-button>
+							</md-menu-item>
+							<md-menu-item>
+								<md-button ng-click="db.changeVersion()">
+									Change version
+								</md-button>
+							</md-menu-item>
+							<md-menu-item>
+								<md-button ng-disabled="!db.db" ng-click="db.copy()">
+									Make a copy
+								</md-button>
+							</md-menu-item>
+						</md-menu-content>
+					</md-menu>
+					<!-- <md-menu>
+						<button ng-click="$mdOpenMenu()">
+							GoTo
+						</button>
+						<md-menu-content>
+							<md-menu-item>
+								<md-button disabled="disabled" class="not-implemented" ng-click="ctrl.sampleAction('undo', $event)">
+									Next page
+								</md-button>
+							</md-menu-item>
+							<md-menu-item>
+								<md-button disabled="disabled" class="not-implemented" ng-click="ctrl.sampleAction('undo', $event)">
+									Previus page
+								</md-button>
+							</md-menu-item>
+						</md-menu-content>
+					</md-menu> -->
+					<!-- <md-menu>
+						<button ng-click="$mdOpenMenu()">
+							View
+						</button>
+						<md-menu-content>
+							<md-menu-item type="checkbox" ng-disabled="true" class="not-implemented" ng-model="ctrl.settings.printLayout">Print layout</md-menu-item>
+							<md-menu-item class="md-indent">
+								<md-menu>
+									<md-button ng-click="$mdOpenMenu()">Mode</md-button>
+									<md-menu-content width="3">
+										<md-menu-item type="radio" ng-disabled="true" class="not-implemented" ng-model="ctrl.settings.presentationMode" value="'presentation'">Presentation</md-menu-item>
+										<md-menu-item type="radio" ng-disabled="true" class="not-implemented" ng-model="ctrl.settings.presentationMode" value="'edit'">Edit</md-menu-item>
+										<md-menu-item type="radio" ng-disabled="true" class="not-implemented" ng-model="ctrl.settings.presentationMode" value="'modifiable'">Modifiable</md-menu-item>
+									</md-menu-content>
+								</md-menu>
+							</md-menu-item>
+							<md-menu-divider></md-menu-divider>
+							<md-menu-item type="checkbox" ng-disabled="true" class="not-implemented" ng-model="ctrl.settings.showRuler">Show ruler</md-menu-item>
+							<md-menu-item type="checkbox" ng-disabled="true" class="not-implemented" ng-model="ctrl.settings.showEquationToolbar">Show equation toolbar</md-menu-item>
+							<md-menu-item type="checkbox" ng-disabled="true" class="not-implemented" ng-model="ctrl.settings.showSpellingSuggestions">Show spelling suggestions</md-menu-item>
+							<md-menu-divider></md-menu-divider>
+							<md-menu-item type="checkbox" ng-model="ctrl.settings.compactControls" ng-disabled="true" class="not-implemented">Logs</md-menu-item>
+							<md-menu-item class="md-indent">
+								<md-icon>fullscreen</md-icon>
+								<md-button disabled="disabled" class="not-implemented" ng-click="ctrl.sampleAction('undo', $event)">
+									Full Screen
+									<span class="md-alt-text">{{ 'M-F' | keyboardShortcut }}</span>
+								</md-button>
+							</md-menu-item>
+						</md-menu-content>
+					</md-menu> -->
+					<!-- <md-menu>
+						<button ng-click="$mdOpenMenu()">
+							Help
+						</button>
+						<md-menu-content>
+							<md-menu-item><md-button disabled="disabled" class="not-implemented" ng-click="ctrl.toggleSetting('clearFormatting')">...</md-button></md-menu-item>
+						</md-menu-content>
+					</md-menu> -->
+				</md-menu-bar>
+			</div>
+		</div>
+	</md-toolbar>
+
+	<!-- <md-sidenav ng-if="false" class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')">
+		<md-toolbar class="md-tall md-theme-indigo">
+			<h1 class="md-toolbar-tools">SQLite {{db.tables[0].sqlite_version}}</h1>
+			<select
+				ng-model="db.database"
+				ng-change="db.go(db.database.name)"
+				ng-options="v.name for (k, v) in db.databases">
+				<option value disabled>-- select a database --</option>
+			</select>
+		</md-toolbar>
+		<md-content layout-padding ng-controller="LeftCtrl">
+			<md-list>
+				<md-list-item ng-repeat="table in db.tables" ng-click="db.go(db.database+'/'+db.version+'/'+table.name)">
+					<md-icon>grid_on</md-icon>
+					<p ng-bind="::table.name"></p>
+				</md-list-item>
+			</md-list>
+		</md-content>
+	</md-sidenav> -->
+
+	<div style="background-color:#f1f1f1" flex ng-include="'components/indexeddb/' + (db.$route.current.params.view || 'dashboard') + '.html'"></div>
+
+</section>

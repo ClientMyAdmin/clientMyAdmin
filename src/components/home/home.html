@@ -1,0 +1,21 @@
+<section layout="column" layout-align="center center" style="height:100%;">
+	<h1>ClientMyAdmin</h1>
+	<div>
+		<md-grid-list style="width:400px;"
+		    class="gridListDynamicTiles"
+			md-cols-sm="3" md-cols-md="3" md-cols-gt-md="3"
+			md-row-height-gt-md="1:1" md-row-height="1:1"
+			md-gutter="12px" md-gutter-gt-sm="8px">
+
+			<md-grid-tile class="green" ng-repeat="item in app.menu">
+			<a ng-href="#{{item.link}}">
+				<md-icon class="md-light s32">{{::item.icon}}</md-icon>
+				<md-grid-tile-footer>
+					<h3>{{::item.title}}</h3>
+				</md-grid-tile-footer>
+			</a>
+			</md-grid-tile>
+
+		</md-grid-list>
+	</div>
+</section>

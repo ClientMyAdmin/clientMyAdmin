@@ -1,0 +1,108 @@
+<section>
+
+	<md-toolbar class="md-tall">
+		<div class="md-toolbar-tools" ng-controller="LeftCtrl">
+			<h1>{{::db.database}} - v{{::db.version}}</h1>
+			<div flex></div>
+			<md-menu>
+				<md-button class="md-icon-button" ng-click="$mdOpenMenu()">
+					<md-icon>more_vert</md-icon>
+				</md-button>
+				<md-menu-content width="4">
+					<md-menu-item>
+						<md-button ng-disabled="true">
+							Delete database
+						</md-button>
+					</md-menu-item>
+
+					<md-menu-item>
+						<md-button ng-disabled="true">
+							Export
+						</md-button>
+					</md-menu-item>
+
+					<md-menu-item>
+						<md-button ng-disabled="true">
+							Import
+						</md-button>
+					</md-menu-item>
+
+				</md-menu-content>
+			</md-menu>
+		</div>
+	</md-toolbar>
+
+	<md-card>
+		<md-data-table-container>
+			<table md-data-table md-row-select="foo" class="md-primary">
+				<thead md-order="dash.query.order" md-trigger="onOrderChange">
+					<tr>
+						<th name="Name"></th>
+						<th name="Tyoe"></th>
+						<th name="Constraints"></th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="table in dash.tables">
+						<td><a href="#/{{::db.type}}/{{::db.database}}/{{::db.version}}/{{::table.name}}" ng-bind="table.name"></td>
+						<td ng-bind="table.count"></td>
+						<td>(Not done yet)</td>
+						<td  style="width: 1px">
+							<md-menu md-offset="0 6">
+								<md-button aria-label="Open phone interactions menu" class="md-icon-button" ng-click="$mdOpenMenu()">
+									<md-icon>more_vert</md-icon>
+								</md-button>
+								<md-menu-content width="4">
+									<md-menu-item>
+										<md-button ng-href="#/{{::db.type}}/{{::db.database}}/{{::db.version}}/{{::table.name}}">
+											<md-icon>grid_on</md-icon>
+											Browse
+										</md-button>
+									</md-menu-item>
+									<md-menu-item>
+										<md-button ng-disabled="true" ng-click="ctrl.redial($event)">
+											<md-icon>grid_on</md-icon>
+											Structure
+										</md-button>
+									</md-menu-item>
+									<md-menu-item>
+										<md-button ng-disabled="true" ng-click="ctrl.redial($event)">
+											<md-icon>search</md-icon>
+											Search
+										</md-button>
+									</md-menu-item>
+									<md-menu-item>
+										<md-button ng-disabled="true" ng-click="ctrl.redial($event)">
+											<md-icon>playlist_add</md-icon>
+											Insert Rows
+										</md-button>
+									</md-menu-item>
+									<md-menu-item>
+										<md-button ng-click="db.truncate(table)">
+											<md-icon>backspace</md-icon>
+											Truncate
+										</md-button>
+									</md-menu-item>
+									<md-menu-item>
+										<md-button ng-click="db.dropTable(table)">
+											<md-icon>delete</md-icon>
+											Delete
+										</md-button>
+									</md-menu-item>
+								</md-menu-content>
+							</md-menu>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</md-data-table-container>
+
+		<!-- <md-data-table-pagination md-limit="query.limit" md-page="query.page" md-total="{{db.tables.length}}" md-trigger="onPaginationChange"></md-data-table-pagination> -->
+
+	</md-card>
+
+	<md-button ng-click="db.addTable($event)" class="md-accent md-fab md-fab-bottom-right">
+		<md-icon md-font-set="material-icons">add</md-icon>
+	</md-button>
+</section>

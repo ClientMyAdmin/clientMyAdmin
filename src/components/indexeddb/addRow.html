@@ -1,0 +1,29 @@
+<md-dialog aria-label="add table row" style="width:500px">
+	<form name="itemForm" ng-submit="answer(item)">
+		<md-toolbar>
+			<div class="md-toolbar-tools">
+				<h2>Add Row</h2>
+				<span flex></span>
+				<md-button formnovalidate="formnovalidate" type="button" class="md-icon-button" ng-click="cancel()" aria-label="Close dialog">
+					<md-icon>close</md-icon>
+				</md-button>
+			</div>
+		</md-toolbar>
+
+		<div ng-model="item.value" ui-ace="{mode: 'javascript'}" style="height: 200px;"></div>
+		<md-dialog-content ng-if="keyPath === null" style="width: 800px;max-height:810px; ">
+			<div class="md-dialog-content">
+				<md-input-container flex>
+					<label>Key</label>
+					<input ng-model="item.key">
+				</md-input-container>
+			</div>
+		</md-dialog-content>
+		<div class="md-actions" layout="row">
+			<span flex></span>
+			<md-button style="margin-right:20px;">
+				Useful
+			</md-button>
+		</div>
+	</form>
+</md-dialog>

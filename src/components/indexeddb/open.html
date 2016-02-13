@@ -1,0 +1,33 @@
+<md-dialog style="width:500px">
+	<form name="form" ng-submit="$mdDialog.hide(name)">
+		<md-toolbar>
+			<div class="md-toolbar-tools">
+				<h2>Open database</h2>
+				<span flex></span>
+				<md-button formnovalidate="formnovalidate" type="button" class="md-icon-button" ng-click="$mdDialog.cancel()" aria-label="Close dialog">
+					<md-icon>close</md-icon>
+				</md-button>
+			</div>
+		</md-toolbar>
+		<md-dialog-content>
+
+			<md-input-container>
+				<div class="md-dialog-content">
+					<label>Name</label>
+					<input name="name" ng-model="name" required validity>
+					<div ng-messages="form.name.$error">
+						<div ng-message="validity">{{form.name._validationMessage}}</div>
+						<div ng-message="required">This is required.</div>
+					</div>
+				</div>
+			</md-input-container>
+
+		</md-dialog-content>
+		<div class="md-actions" layout="row">
+			<span flex></span>
+			<md-button ng-disabled="form.$invalid" style="margin-right:20px;">
+				Useful
+			</md-button>
+		</div>
+	</form>
+</md-dialog>

@@ -1,0 +1,40 @@
+<section ng-controller="db.dashboard as dash" ng-init="dash.init(db)">
+
+	<md-card>
+		<md-data-table-container>
+			<table md-data-table md-row-select="dash.selected" class="md-primary">
+				<thead md-order="dash.query.order" md-trigger="onOrderChange">
+					<tr>
+						<th ng-repeat="col in db.tableColumns" name="{{col.label || col.name}}" order-by="{{col.name}}"></th>
+						<th name="Action"></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="row in db.tableRows">
+						<td ng-repeat="col in db.tableColumns" ng-bind="::row[col.name] | json:true"></td>
+						<td  style="width: 1px">
+							<md-menu md-offset="0 6">
+								<md-button aria-label="Open phone interactions menu" class="md-icon-button" ng-click="$mdOpenMenu()">
+									<md-icon>more_vert</md-icon>
+								</md-button>
+								<md-menu-content width="4">
+									<md-menu-item>
+										<md-button ng-click="db.deleteItem(row)">
+											<md-icon>delete</md-icon>
+											Delete
+										</md-button>
+									</md-menu-item>
+								</md-menu-content>
+							</md-menu>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</md-data-table-container>
+		<md-data-table-pagination md-limit="dash.query.limit" md-page="dash.query.page" md-total="{{db.db.table(db.table).nRows}}" md-trigger="dash.onPaginationChange"></md-data-table-pagination>
+	</md-card>
+
+	<md-button ng-click="db.addRow($event)" class="md-accent md-fab md-fab-bottom-right">
+		<md-icon md-font-set="material-icons">add</md-icon>
+	</md-button>
+</section>

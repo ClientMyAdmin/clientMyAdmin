@@ -1,0 +1,41 @@
+<md-dialog style="width:500px">
+	<form name="form" ng-submit="$mdDialog.hide(data)">
+		<md-toolbar>
+			<div class="md-toolbar-tools">
+				<h2>{{::title}}</h2>
+				<span flex></span>
+				<md-button formnovalidate="formnovalidate" type="button" class="md-icon-button" ng-click="$mdDialog.cancel()" aria-label="Close dialog">
+					<md-icon>close</md-icon>
+				</md-button>
+			</div>
+		</md-toolbar>
+		<md-dialog-content>
+			<div class="md-dialog-content">
+				<md-input-container>
+					<label>Name</label>
+					<input name="name" ng-model="data.name" required sql-exist validity ng-if="type=='sql'" ng-model-options="{ updateOn: 'default blur', debounce: { 'default': 2500, 'blur': 0 } }">
+					<input name="name" ng-model="data.name" required idb-exist validity ng-if="type!='sql'">
+					<div ng-messages="form.name.$error">
+						<div ng-message="exist">The database already exist.</div>
+						<div ng-message="required">This is required.</div>
+						<div ng-message="validity">{{form.name._validationMessage}}</div>
+					</div>
+				</md-input-container>
+
+				<md-input-container>
+					<label>Version</label>
+					<input type="number" min="1" step="1" name="version" ng-model="data.version" validity>
+					<div ng-messages="form.version.$error">
+						<div ng-message="validity">{{form.version._validationMessage}}</div>
+					</div>
+				</md-input-container>
+			</div>
+		</md-dialog-content>
+		<div class="md-actions" layout="row">
+			<span flex></span>
+			<md-button ng-disabled="form.$invalid" style="margin-right:20px;">
+				Useful
+			</md-button>
+		</div>
+	</form>
+</md-dialog>

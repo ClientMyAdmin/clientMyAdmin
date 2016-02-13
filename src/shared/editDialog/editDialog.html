@@ -1,0 +1,80 @@
+<md-dialog>
+	<form ng-submit="dialog.save()" name="form">
+		<md-toolbar>
+			<div class="md-toolbar-tools">
+				<h2 class="md-title">Add item</h2>
+				<span flex></span>
+				<md-button formnovalidate="formnovalidate" type="button" class="md-icon-button" ng-click="dialog.cancel()" aria-label="Close dialog">
+					<md-icon>close</md-icon>
+				</md-button>
+			</div>
+		</md-toolbar>
+		<md-dialog-content>
+			<div class="md-dialog-content">
+				<div layout="row" class="input-row">
+					<md-input-container flex>
+						<label>Key</label>
+						<input name="name" p-focus="sowed" ng-model="item.name" required>
+						<div ng-messages="form.name.$error">
+							<div ng-message="required">This is required.</div>
+						</div>
+					</md-input-container>
+					<md-input-container flex>
+						<label>Value</label>
+						<input name="calories" ng-model="item.value">
+					</md-input-container>
+				</div>
+				<div ng-if="::(dialog.storageTitle == 'Cookies')">
+					<div layout="row" class="input-row">
+						<md-input-container flex>
+							<label>Domain</label>
+							<input name="domain" must-end-with="dialog.location.hostname" ng-model="item.domain">
+							<div ng-messages="form.domain.$error">
+								<div ng-message="mustEndWith">
+									must end with {{dialog.location.hostname}}
+								</div>
+							</div>
+						</md-input-container>
+						<md-input-container flex>
+							<label>Expires</label>
+							<input name="expires" type="datetime-local" ng-model="item.expires">
+						</md-input-container>
+					</div>
+					<div layout="row" class="input-row">
+						<md-input-container flex>
+							<label>Path</label>
+							<input name="path" ng-model="item.path">
+							<div ng-messages="form.path.$error"></div>
+						</md-input-container>
+					</div>
+					<div layout="row" class="input-row">
+						<md-input-container flex>
+							<md-checkbox ng-disabled="true" ng-model="item.httpOnly">
+								<md-tooltip>Can only be controlled throught response headers</md-tooltip>
+								Http
+							</md-checkbox>
+						</md-input-container>
+						<md-input-container flex>
+							<md-checkbox ng-disabled="location.protocol !== 'https:'" ng-model="item.secure">
+								<md-tooltip>Can only be controlled on https</md-tooltip>
+								Secure
+							</md-checkbox>
+						</md-input-container>
+						<md-input-container flex>
+							<md-checkbox ng-disabled="true" ng-model="isDisabled" aria-label="Disabled">
+								<md-tooltip>Don't know why its disabled</md-tooltip>
+								FirstParty
+							</md-checkbox>
+						</md-input-container>
+					</div>
+				</div>
+			</div>
+		</md-dialog-content>
+
+		<div class="md-actions">
+			<md-button ng-disabled="form.$invalid" ng-click="add()" class="md-primary">
+				Save
+			</md-button>
+		</div>
+	</form>
+</md-dialog>

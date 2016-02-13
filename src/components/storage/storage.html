@@ -1,0 +1,77 @@
+<section layout="column" layout-fill>
+
+
+	<md-toolbar class="md-menu-toolbar">
+		<div layout="row">
+			<md-toolbar-filler layout layout-align="center center">
+				<a href="#/">
+					<md-icon>home</md-icon>
+				</a>
+			</md-toolbar-filler>
+			<div>
+				<h2 class="md-toolbar-tools">{{::storageTitle}}</h2>
+				<md-menu-bar>
+					<md-menu>
+						<button ng-click="$mdOpenMenu()">
+							<b>{{::storageTitle}}</b>
+						</button>
+						<md-menu-content>
+							<md-menu-item><md-button target="_blank" ng-href="http://caniuse.com/{{::storageTitle}}">Can i use</md-button></md-menu-item>
+							<md-menu-item><md-button ng-click="clear()">Clear {{::storageTitle}}</md-button></md-menu-item>
+						</md-menu-content>
+					</md-menu>
+				</md-menu-bar>
+			</div>
+		</div>
+	</md-toolbar>
+
+	<div style="background-color:#f1f1f1" flex wis-file="fs.opts">
+		<md-card>
+			
+			<md-data-table-container>
+				<table md-data-table md-progress="deferred" class="md-primary">
+					<thead md-order="query.order" md-trigger="onOrderChange">
+						<tr ng-if="::(storageTitle != 'Cookies')">
+							<th name="Key" order-by="name"></th>
+							<th Name="Value" order-by="value"></th>
+						</tr>
+						<tr ng-if="::(storageTitle == 'Cookies')">
+							<th name="Key" order-by="key"></th>
+							<th Name="Value" order-by="val"></th>
+							<th Name="Domain" order-by="val"></th>
+							<th Name="Path" order-by="val"></th>
+							<th Name="Expires" order-by="val"></th>
+							<th Name="Size" order-by="val"></th>
+							<th Name="Http only" order-by="val"></th>
+							<th Name="Secure" order-by="val"></th>
+							<th Name="First Party" order-by="val"></th>
+						</tr>
+					</thead>
+					<tbody>
+						<!-- bug in safari requires us not to use empty td's -->
+						<tr ng-repeat="row in storage | orderBy:query.order | limitTo: query.limit: (query.page-1) * query.limit" ng-click="edit($event, row)">
+							<td><span ng-bind="row.value.name || row.name"></span></td>
+							<td><span ng-bind="row.value.value || row.value"></span></td>
+							<td ng-if="::(storageTitle == 'Cookies')"><span ng-bind="row.domain"></span></td>
+							<td ng-if="::(storageTitle == 'Cookies')"><span ng-bind="row.path"></span></td>
+							<td ng-if="::(storageTitle == 'Cookies')"><span ng-bind="row.expires"></span></td>
+							<td ng-if="::(storageTitle == 'Cookies')"><span ng-bind="row.name.length + row.value.length"></span></td>
+							<td ng-if="::(storageTitle == 'Cookies')"><span ng-bind="row.httpOnly"></span></td>
+							<td ng-if="::(storageTitle == 'Cookies')"><span ng-bind="row.secure"></span></td>
+							<td ng-if="::(storageTitle == 'Cookies')"><span ng-bind="row.firstParty"></span></td>
+						</tr>
+					</tbody>
+				</table>
+			</md-data-table-container>
+			<md-data-table-pagination md-limit="query.limit" md-page="query.page" md-total="{{localStorage.length}}" md-trigger="onPaginationChange"></md-data-table-pagination>
+
+		</md-card>
+	</div>
+
+	<md-button ng-click="add($event)" class="md-accent md-fab md-fab-bottom-right">
+		<md-icon md-font-set="material-icons">add</md-icon>
+	</md-button>
+
+</section>
+
+
