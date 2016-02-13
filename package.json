@@ -1,18 +1,8 @@
 {
   "name": "clientmyadmin",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://Boundless@bitbucket.org/Boundless/clientmyadmin.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "homepage": "https://bitbucket.org/Boundless/clientmyadmin#readme",
+  "description": "The client my admin tool",
+  "main": "entry.js",
   "dependencies": {
     "baggage-loader": "^0.2.2",
     "html-loader": "^0.3.0",
@@ -28,5 +18,19 @@
     "html-minify-loader": "^1.0.0",
     "style-loader": "^0.12.4",
     "uglify-loader": "^1.2.0"
-  }
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://jimmywarting@github.com/ClientMyAdmin/clientMyAdmin.git"
+  },
+  "author": "Jimmy Wärting",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/ClientMyAdmin/clientMyAdmin/issues"
+  },
+  "homepage": "https://clientmyadmin.github.io"
 }
+
