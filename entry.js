@@ -17,35 +17,33 @@ function load(src) {
 
 }
 
-Promise.all([
-	// Load 3d party lib
-	load('https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js'),
-	load('https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.0/ace.min.js'),
-	load('https://cdnjs.cloudflare.com/ajax/libs/dexie/1.2.0/Dexie.js'),
-	load('https://cdn.gitcdn.xyz/cdn/codeschool/sqlite-parser/5cfa81210be12a96a040f9e66552e7c3b2316638/dist/sqlite-parser-min.js')
-	// load('https://gitcdn.xyz/repo/kripken/sql.js/master/js/sql.js')
-]).then(function(){
+load('https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js')
+.then(function(){
 	// Load 3d party plugins that depends on angular
 	return Promise.all([
-		load('https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular-animate.min.js'),
-		load('https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular-messages.min.js'),
-		load('https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular-aria.min.js'),
-		load('https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular-route.min.js'),
-		load('https://gitcdn.xyz/repo/angular/bower-material/master/angular-material.js')
+		load('https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-animate.min.js'),
+		load('https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-messages.min.js'),
+		load('https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-aria.min.js'),
+		load('https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.min.js'),
+		load('https://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.js'),
+		load('https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.0/ace.min.js'),
+		load('https://cdnjs.cloudflare.com/ajax/libs/dexie/1.2.0/Dexie.js'),
+		// load('https://gitcdn.xyz/repo/kripken/sql.js/master/js/sql.js')
+		fetch("https://raw.githubusercontent.com/codeschool/sqlite-parser/master/dist/sqlite-parser-min.js")
+			.then(res => res.blob())
+			.then(blob => load(URL.createObjectURL(blob)))
 	]);
 }).then(function() {
-	
+
 	window.app = angular.module('myApp', ['ngMessages', 'ngMaterial', 'ngRoute', 'ngAnimate', 'md.data.table', 'ui.ace'])
 
 	ace.config.set("basePath", "https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.0/");
 
-	var templates=require.context("./src/", true, /^./);
-	templates.keys().forEach(function(key) {
-		templates(key);
-	});
-	
+	var templates=require.context("./src/", true, /^./)
+	templates.keys().forEach( key => templates(key) )
+
 	app.config(["$provide", function($provide) {
-		
+
 		$provide.decorator("$rootScope", ["$delegate", function($delegate) {
 			var origThen = Dexie.Promise.prototype.then;
 			var timer = null;
@@ -90,7 +88,7 @@ Promise.all([
 		Dexie.Promise.prototype.onuncatched = function(err){
 			console.warn("uncatch error", err);
 		}
-		
+
 		db.open = function(){
 			return originalOpen.apply(this, []).then(function(){
 				return db;
@@ -160,7 +158,7 @@ Promise.all([
 		}
 
 		db.changeVersion = function(v){
-			
+
 			if(v < this.v){
 				var self = this;
 				return new Dexie.Promise(function(resolve){
@@ -189,7 +187,7 @@ Promise.all([
 				if(typeof data.callback === "string"){
 					window[data.callback]()
 				}
-				
+
 				if(typeof data.callback === "function"){
 					data.callback();
 				}
@@ -202,7 +200,7 @@ Promise.all([
 					var store, schema, idx, i;
 
 					schema = table.schema;
-					
+
 					store = db.createObjectStore(schema.name, { keyPath: schema.primKey.keyPath || undefined, autoIncrement: schema.primKey.auto });
 
 					for (i in schema.indexes) {
@@ -227,16 +225,16 @@ Promise.all([
 
 		}
 
-		Object.defineProperty(db, "v", { 
-			get: function (){ 
-				return Math.round(this.verno * 10); 
-			} 
+		Object.defineProperty(db, "v", {
+			get: function (){
+				return Math.round(this.verno * 10);
+			}
 		});
 
 
 		db.export = function(override, callback, stringify) {
 			var version = this.backendDB().version;
-					
+
 			return Dexie.Promise.all(db.tables.map(function (t) {
 
 				return t.toCollection().toObjectArray().then(function(content){
@@ -259,14 +257,14 @@ Promise.all([
 				return stringify ? asyncJSON.stringify(result).then(function(result) {
 					return ";("+importFn.toString()+")("+result+")";
 				}) : importFn.bind(undefined, result);
-				
+
 			});
 
 		}
 
 	})
 
-	
+
 	Dexie.deleteAll = function(){
 		return Dexie.getDatabaseNames().then(function(names){
 			return Dexie.Promise.all(names.map(Dexie.delete));

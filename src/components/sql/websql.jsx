@@ -2,7 +2,7 @@ app.service('websql', ['$q', '$interpolate', function($q, $interpolate){
 
     var exist = {}
     var jar = window.jar = new WeakMap();
-    
+
 var importFn = function(data) {
     var db = openDatabase(data.name, "", "", "");
     var cb = function(){};
@@ -15,19 +15,18 @@ var importFn = function(data) {
         cb = data.callback
     }
 
-
     function versionChangeError(err){
         console.error("Error changing database version!", err);
     }
-    
+
     function versionChangeComplete(){
         console.info("Version change complete");
         cb();
     }
-    
+
     function versionChangeMigration(tx){
         data.tables.forEach(function(table){
-            
+
             function transactionComplete(){
                 console.info(table.schema.sql)
             }
@@ -64,7 +63,7 @@ var importFn = function(data) {
                 versions: [],
                 db: null
             };
-            
+
             jar.set(this, privateProperties);
         }
 
@@ -87,9 +86,9 @@ var importFn = function(data) {
                     return self.open()
                 });
             }
-            
+
             this.v = db.version;
-            
+
             var sqlite_master_AST;
             var sqlite_master_SQL = "CREATE TABLE sqlite_master (type text, name text, tpl_name text, rootpage integer, sql text)";
 
@@ -101,11 +100,11 @@ var importFn = function(data) {
             var sqlite_master = new WriteableTable("sqlite_master", this, "CREATE TABLE sqlite_master (type, name, tbl_name, rootpage, sql)", sqlite_master_AST);
 
             this.tables.push(sqlite_master);
-        
+
             var self = this;
 
             return sqlite_master.query('SELECT *, sqlite_version() as sqlite_version FROM sqlite_master').toArray(function(r){
-                
+
                 // var db = new SQL.Database();
 
                 r.forEach(function(item){
@@ -115,7 +114,7 @@ var importFn = function(data) {
                     // but i want to retrive the sqlite_version
                     if(item.type !== 'table' || item.name.startsWith("__")) return;
 
-                    
+
                     sqliteParser(item.sql, function(err, res){
                         if(err) return;
 
@@ -140,7 +139,7 @@ var importFn = function(data) {
             var self = this;
             var db = this.backendDB();
             self.v = ver;
-            
+
             return $q(function(resolve, reject){
                 db.changeVersion(db.version, ver, null, reject, resolve);
             });
@@ -162,7 +161,7 @@ var importFn = function(data) {
                 });
             });
         }
-        
+
         get writeableTables() {
             return this.tables.filter(function(table){
                 return table.name !== 'sqlite_master';
@@ -208,10 +207,10 @@ var importFn = function(data) {
                         });
                         return args;
                     });
-                    
+
                     if(override.format == "sqlite"){
                         var sql = `INSERT INTO ${JSON.stringify(t.name)} (${JSON.stringify(columns).slice(1, -1)}) VALUES `;
-                        
+
                         return rows.reduce(function(prev, next){
                             var values = '(' + JSON.stringify(next).slice(1, -1) + ');\n';
                             return prev + sql + values
@@ -236,13 +235,13 @@ var importFn = function(data) {
                     version: override.version || version,
                     tables: result
                 }
-                
+
                 callback && (result.callback = callback);
 
                 return stringify ? asyncJSON.stringify(result).then(function(result) {
                     return ";("+importFn.toString()+")("+result+")";
                 }) : importFn.bind(undefined, result);
-                
+
             });
 
         }
@@ -259,9 +258,9 @@ var importFn = function(data) {
 
         transaction(mode, fn, fn2){
             var _private = jar.get(this);
-            
+
             var db = _private.db;
-            
+
             return $q(function(resolve, reject){
                 db[mode == "r" ? "readTransaction" : "transaction"](fn, reject, resolve)
             })
@@ -275,7 +274,7 @@ var importFn = function(data) {
                 });
             });
         }
-    } 
+    }
 
     function doMigration(resolve, reject, db, entries) {
         var next = entries.next();
@@ -284,7 +283,7 @@ var importFn = function(data) {
         var err = function(){
             reject()
         }
-        
+
         var suc = function(){
             doMigration(resolve, reject, db, entries);
         }
@@ -303,7 +302,7 @@ var importFn = function(data) {
         })
     };
 
-    
+
     function DBexist(resolve, reject, name) {
         var db = openDatabase(name, "", "", "");
 
@@ -326,13 +325,13 @@ var importFn = function(data) {
                 query: query,
                 table: table,
                 args: args || []
-            }; 
+            };
         }
 
         equals(comparitor){
             this._ctx.query += " = ?";
             this._ctx.args.push(comparitor);
-            
+
             return new WhereClause(this._ctx);
         }
 
@@ -345,24 +344,24 @@ var importFn = function(data) {
             this._ctx.args.push(comparitor);
             this._ctx.query += " ESCAPE ?";
 
-            return new WhereClause(this._ctx);   
+            return new WhereClause(this._ctx);
         }
-        
+
         notLike(comparitor){
             this._ctx.args.push(comparitor);
             this._ctx.query += " NOT LIKE ?";
 
-            return new WhereClause(this._ctx);   
+            return new WhereClause(this._ctx);
         }
-        
+
         limit(n){
             this._ctx.query += " LIMIT "+n;
-            return new WhereClause(this._ctx);   
+            return new WhereClause(this._ctx);
         }
-        
+
         offset(n){
             this._ctx.query += " OFFSET "+n;
-            return new WhereClause(this._ctx);   
+            return new WhereClause(this._ctx);
         }
 
         toObjectArray(n){
@@ -392,7 +391,7 @@ var importFn = function(data) {
     }
 
     class WriteableTable {
-    
+
         constructor(name, instance, sql, schema) {
 
             var table = this;
@@ -408,7 +407,7 @@ var importFn = function(data) {
                 sql: sql
             };
             table.instance = instance
-            
+
 
             schema.definition.map(definition => {
                 var column = {
@@ -421,7 +420,7 @@ var importFn = function(data) {
                 }
 
 
-                
+
                 definition.definition.forEach(function(def){
                     if(def.variant === "not null"){
                         column.notNull = true
