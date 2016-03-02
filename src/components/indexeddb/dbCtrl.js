@@ -182,7 +182,7 @@ app.controller('db', ["$scope", "$location", "$mdDialog", "db", "$route", "$mdUt
 				var kp = primKey.keyPath;
 				var e = {};
 				e[kp] = 'value';
-				
+
 				var resolve = !kp ? "'value'" : primKey.auto ? '{}' : JSON.stringify(e)
 
 				$scope.item={
@@ -247,8 +247,8 @@ app.controller('db', ["$scope", "$location", "$mdDialog", "db", "$route", "$mdUt
 	}
 
 	$scope.$on('$locationChangeStart', function (event, next, current) {
-		next.split("?", 1)[0] !== current.split("?", 1)[0] && 
-		self.db && 
+		next.split("?", 1)[0] !== current.split("?", 1)[0] &&
+		self.db &&
 		self.db.close() ||
 		self.onPaginationChange()
 	});
@@ -257,14 +257,14 @@ app.controller('db', ["$scope", "$location", "$mdDialog", "db", "$route", "$mdUt
 		var params = $location.search();
 		var page = (params.page || 1) - 1;
 		var limit = params.limit || 5;
-		
+
 		if(self.type === 'sql') {
 			var table = self.db.table(self.table);
 			// self.tableColumns.splice(0, self.tableColumns.length);
 			console.log(table.schema.columns);
 			// label: "key (Key path: "rowid", autoIncrement)"
 			// name: "key"
-			
+
 			self.tableColumns = table.schema.columns
 
 			table.limit(limit).offset(page*limit).toArray().then(function(result) {
@@ -292,7 +292,7 @@ app.controller('db', ["$scope", "$location", "$mdDialog", "db", "$route", "$mdUt
 
 		}
 	};
-	
+
 	self.query = {
 		filter: '',
 		order: ''
@@ -325,7 +325,7 @@ app.controller('db', ["$scope", "$location", "$mdDialog", "db", "$route", "$mdUt
 		format: "vanilla"
 	}
 	self.mode = "fast";
-	
+
 	self.execute = function(){
 		db.export(self.config, "", true).then(function(result){
 			console.log(result);
@@ -388,7 +388,7 @@ app.controller('db', ["$scope", "$location", "$mdDialog", "db", "$route", "$mdUt
 						obj.tableColumns[0].label = ('key (Key path: "'+primKey.keyPath+'"'+(primKey.auto?', autoIncrement':'')+')').replace('Key path: ""', '').replace(" ()", '').replace(" (, ", ' (');
 					});
 				}
-				
+
 				return $q.all(obj);
 			}]
 		}
@@ -418,7 +418,7 @@ app.controller('db', ["$scope", "$location", "$mdDialog", "db", "$route", "$mdUt
 			ngModel.$asyncValidators.exist = function(modelValue, viewValue) {
 				return Dexie.exists(viewValue).then(function(exist){
 					return exist && $q.reject();
-				});	
+				});
 			};
 		}
 	};

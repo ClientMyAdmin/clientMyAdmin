@@ -146,7 +146,7 @@ var nutritionController = ['$scope','$q', '$mdDialog', '$location', function($sc
 		limit: 5,
 		page: 1
 	};
-	
+
 	$scope.$watch(function(){
 		return storageType.length
 	}, update);

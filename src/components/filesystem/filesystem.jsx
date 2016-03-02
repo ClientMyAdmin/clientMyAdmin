@@ -1,19 +1,19 @@
 app.factory('fileSystem', ['$q', '$timeout', '$rootScope', function($q, $timeout, $rootScope) {
-	
+
 	var type = function(c){var d={}.toString;return function(a){if(a===c)return"global";var b=typeof a;return"object"!=b?b:d.call(a).slice(8,-1).toLowerCase()}}(this);
 	var rq = window.requestFileSystem || window.webkitRequestFileSystem;
 
 	class FileSystem {
 		constructor(type){
 			var self = this;
-			
+
 			self.cwdFiles = [];
 
 			return $q(function(resolve, reject){
 				rq(type, "", function(fs) {
 					self.fs = fs;
 					self.cwd = fs.root;
-					
+
 					self.type = type ? 'persistent':'temporary';
 
 					self.Folder = class Folder extends Array{
@@ -81,13 +81,13 @@ app.factory('fileSystem', ['$q', '$timeout', '$rootScope', function($q, $timeout
 
 					var store = navigator[type?'webkitPersistentStorage':'webkitTemporaryStorage'];
 					var query = store.queryUsageAndQuota.bind(store);
-					
+
 
 					self.query = function(orig){
 						return function(result){
 							query(function(u, a){
 								self.used = u;
-								self.avalible = a;		
+								self.avalible = a;
 								orig(result);
 							})
 						}
@@ -111,9 +111,9 @@ app.factory('fileSystem', ['$q', '$timeout', '$rootScope', function($q, $timeout
 			var destDir = dest.substring(0, i);
 
 			var justRename = (src.substring(0, src.lastIndexOf("/") + 1) === destDir)
-			
+
 			return $q(function(resolve, reject){
-				
+
 				cwd.getFile(src, {create: false}, function(fileEntry) {
 					console.log()
 					fileEntry.moveTo(cwd, dest, resolve, reject);
@@ -139,7 +139,7 @@ app.factory('fileSystem', ['$q', '$timeout', '$rootScope', function($q, $timeout
 
 			});
 		}
-		
+
 		cd( path ){
 			var self = this;
 			return $q(function(resolve, reject){
@@ -149,7 +149,7 @@ app.factory('fileSystem', ['$q', '$timeout', '$rootScope', function($q, $timeout
 				}, reject)
 			})
 		}
-		
+
 		rm( flags, pathOrEntry ){
 			// TODO should be able to remove dir also and rescrusive
 			if(arguments.length === 1){
@@ -168,9 +168,9 @@ app.factory('fileSystem', ['$q', '$timeout', '$rootScope', function($q, $timeout
 						}, reject);
 					}).catch(function(e){
 						if(e.name == "TypeMismatchError") //  its a dir
-							
+
 							return $q(function(resolve, reject){
-								
+
 								self.cwd.getDirectory(pathOrEntry, {create: true}, function( dirEntry ){
 									dirEntry[rescrusive ? 'removeRecursively' : 'remove'](self.query(resolve), reject);
 								})
@@ -204,9 +204,9 @@ app.factory('fileSystem', ['$q', '$timeout', '$rootScope', function($q, $timeout
 
 		ls( path, callback ){
 			var value = [];
-			
+
 			this.cwd.createReader().readEntries(function(entries) {
-				
+
 				var names = entries.map(function(entry){
 					return entry.name
 				});
@@ -226,7 +226,7 @@ app.factory('fileSystem', ['$q', '$timeout', '$rootScope', function($q, $timeout
 			var self = this;
 
 			return $q(function(resolve, reject){
-			
+
 				switch (type(src)){
 					case "fileentry":
 						src.copyTo(dest, newName, self.query(resolve), reject);
@@ -275,7 +275,7 @@ app.factory('fileSystem', ['$q', '$timeout', '$rootScope', function($q, $timeout
 				path = config;
 				config = ""
 			}
-			
+
 			return $q(function(resolve, reject){
 				if( !~config.indexOf("p") ){
 					root.getDirectory(path, {create: true}, self.query(resolve), reject);
@@ -310,12 +310,12 @@ app.factory('fileSystem', ['$q', '$timeout', '$rootScope', function($q, $timeout
 			});
 
 		}
-		
+
 		walk( dirEntry, cb ){
 			var fs = this;
 			var stats = {files: 0, size: 0, folders: 0, $pending: 0, $done: false, "/": new fs.Folder("")};
 			var sequence = $q.when();
-			
+
 			function pending(i){
 				stats.$pending += i;
 				if(stats.$pending === 0){
@@ -323,16 +323,16 @@ app.factory('fileSystem', ['$q', '$timeout', '$rootScope', function($q, $timeout
 					cb(stats);
 				}
 			}
-			
+
 			function readFolder( dirEntry, cwd ) {
 				pending(1);
 				dirEntry.createReader().readEntries(function(entries) {
-					
+
 					entries.forEach(function(entry){
-						
+
 						if(entry.isFile) {
 							stats.files += 1;
-							
+
 							pending(1);
 							entry.file(function(e){
 								cwd.push(new fs.File(entry.name, e.size, e.type, e.lastModified));
@@ -345,13 +345,13 @@ app.factory('fileSystem', ['$q', '$timeout', '$rootScope', function($q, $timeout
 							readFolder(entry, folder);
 						}
 					});
-					
+
 					pending(-1);
 				});
 			}
 
 			readFolder(dirEntry, stats["/"]);
-			
+
 			return stats;
 		}
 
@@ -420,7 +420,7 @@ self.Folder = class Folder extends Array{
 	}
 
 	set name(value){
-		
+
 		fs.root.getDirectory(this.fullPath, {}, function(dirEntry) {
 			dirEntry.getParent(function(parent){
 				dirEntry.moveTo(parent, value);
@@ -459,7 +459,7 @@ self.Folder = class Folder extends Array{
 				Things[i]
 			}
 		}
-		
+
 	}
 }
 

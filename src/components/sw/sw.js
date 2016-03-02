@@ -15,7 +15,7 @@ app.config(['$routeProvider', function($routeProvider) {
 				if(worker.active.$$active){
 					worker.unregister().then(function(successful){
 						if(successful){
-							worker.active.$$active = false;	
+							worker.active.$$active = false;
 							update();
 						}
 					}, function(err){
@@ -26,7 +26,7 @@ app.config(['$routeProvider', function($routeProvider) {
 					navigator.serviceWorker.register(worker.active.scriptURL, {scope: worker.scope})
 				}
 			}
-			
+
 		}],
 		controllerAs: 'sw',
 		resolve: {

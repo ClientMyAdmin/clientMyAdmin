@@ -1,11 +1,11 @@
 // Who says jsonp is not usefull when you have json and CORS
 // Its called jsonp becouse its not really json, Its javasciprt
-// 
+//
 // It will return the same thing as json but async and you can
 // have more objects, such as Date, regex, blob, file
-// 
+//
 // Usage:
-// > asyncJSON.stringify({foo: new Date()}).then( => console.log ) 
+// > asyncJSON.stringify({foo: new Date()}).then( => console.log )
 // {foo : new Date(2133212332)}
 //
 //
@@ -28,23 +28,23 @@
     }
   })(this);
 
-  var asap = type(window.setImmediate) === 'function' ? 
+  var asap = type(window.setImmediate) === 'function' ?
       function(callback) {
         setImmediate(callback);
-      }: 
+      }:
       function(callback) {
         setTimeout(callback, 0);
       };
 
   var identifier = /^[a-z_$][a-z0-9_$]*$/i;
-  
+
   function is_identifier_string(str){
   	return identifier.test(str);
   }
 
   function stringifyAux(data, callback, errback, key, counter, context, opts) {
     switch (type(data)) {
-      case "undefined": 
+      case "undefined":
           callback("void 0")
         break
       case "boolean":

@@ -240,7 +240,7 @@ app.config(['$routeProvider', function($routeProvider) {
 				obj.db = new websql(obj.database).open();
 				obj.db.then(function(db){
 					obj.version = db.backendDB().version;
-					
+
 					obj.tables.push.apply(obj.tables, db.tables);
 					obj.tables.forEach(function(table){
 						$q.when(table.count()).then(function(v){
@@ -249,7 +249,7 @@ app.config(['$routeProvider', function($routeProvider) {
 					});
 				})
 
-				
+
 				if(obj.table){
 					obj.tableColumns = [{name: "key"},{name: "value"}];
 					obj.tableRows = obj.db.then(function(db){
@@ -259,7 +259,7 @@ app.config(['$routeProvider', function($routeProvider) {
 						obj.tableColumns[0].label = ('key (Key path: "'+primKey.keyPath+'"'+(primKey.auto?', autoIncrement':'')+')').replace('Key path: ""', '').replace(" ()", '').replace(" (, ", ' (');
 					});
 				}
-				
+
 				return $q.all(obj);
 			}]
 		}
@@ -272,7 +272,7 @@ app.config(['$routeProvider', function($routeProvider) {
         	ngModel.$asyncValidators.exist = function(modelValue, viewValue) {
         		return websql.exist(viewValue).then(function(exist){
     				return exist && $q.reject();
-    			});	
+    			});
             };
         }
     };

@@ -15,7 +15,7 @@ app.directive('blacklist', function (){
 			function sensitive(value){
 				return blacklist.indexOf(value) === -1;
 			}
-			
+
 			var parser = blacklist.$caseInsensitive ? insensitive : sensitive;
 
 			ngModel.$validators.blacklist = parser;
@@ -47,7 +47,7 @@ app.directive("validity", function() {
         require: "ngModel",
         link: function(scope, element, attributes, ngModel) {
         	element = element[0];
-        	
+
         	// if(!ngModel.$$hasNativeValidators) return;
             ngModel.$parsers.unshift(function(value) {
             	ngModel._validationMessage = element.validationMessage

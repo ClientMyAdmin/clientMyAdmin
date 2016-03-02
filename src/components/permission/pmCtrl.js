@@ -89,7 +89,7 @@ app.config(['$routeProvider', function($routeProvider) {
 			permissions.push.onchange = update;
 			permissions.push.setter = function(val){
 				// if(arguments.length){
-					
+
 				// }
 				return permissions.push.state == 'granted'
 			};
@@ -123,29 +123,29 @@ app.config(['$routeProvider', function($routeProvider) {
 					if(arguments.length){
 						permissions.media.audio.state = 'prompt';
 						navigator.mediaDevices.getUserMedia({audio:true}).then(function(mediaStream){
-							
-							try{// WTF? 
+
+							try{// WTF?
 								// Cannot set property active of #<MediaStream> which has only a getter
 								mediaStream.active = false;
 							} catch (e){
 								// 'MediaStream.stop()' is deprecated and will be removed in M47, around November 2015. Please use 'MediaStream.active' instead.
 								mediaStream.stop();
 							}
-							
+
 							permissions.media.audio.state = window.location.protocol == "https:" ? 'granted' : 'prompt'
 							update();
 						}, function(err){
 							if(err.name == "PermissionDismissedError"){
 								permissions.media.audio.state = 'prompt'
 							}
-							
+
 							if(err.name == "PermissionDeniedError"){
 								permissions.media.audio.state = 'disabled'
 							}
-							
+
 							update();
 						});
-						
+
 					}
 					return permissions.media.audio.state == 'granted'
 				}
@@ -157,8 +157,8 @@ app.config(['$routeProvider', function($routeProvider) {
 					if(arguments.length){
 						permissions.media.video.state = 'prompt';
 						navigator.mediaDevices.getUserMedia({video:true}).then(function(mediaStream){
-							
-							try{// WTF? 
+
+							try{// WTF?
 								// Cannot set property active of #<MediaStream> which has only a getter
 								mediaStream.active = false;
 							} catch (e){
@@ -171,10 +171,10 @@ app.config(['$routeProvider', function($routeProvider) {
 						}, function(err){
 							if(err.name == "PermissionDismissedError")
 								permissions.media.video.state = 'prompt'
-							
+
 							if(err.name == "PermissionDeniedError")
 								permissions.media.video.state = 'disabled'
-							
+
 							update();
 						});
 					}
@@ -222,7 +222,7 @@ app.config(['$routeProvider', function($routeProvider) {
 						name: 'geolocation'
 					}),
 					pers: navigator.webkitPersistentStorage && $q(function(resolve, reject){
-						navigator.webkitPersistentStorage.queryUsageAndQuota(function(usedBytes, grantedBytes) {  
+						navigator.webkitPersistentStorage.queryUsageAndQuota(function(usedBytes, grantedBytes) {
 							resolve({
 								state: grantedBytes ? "granted" : "prompt",
 								used: usedBytes,
@@ -231,7 +231,7 @@ app.config(['$routeProvider', function($routeProvider) {
 						}, reject);
 					}),
 					temp: navigator.webkitTemporaryStorage && $q(function(resolve, reject){
-						navigator.webkitTemporaryStorage.queryUsageAndQuota(function(usedBytes, grantedBytes) {  
+						navigator.webkitTemporaryStorage.queryUsageAndQuota(function(usedBytes, grantedBytes) {
 							resolve({
 								state: grantedBytes ? "granted" : "prompt",
 								used: usedBytes,
@@ -286,7 +286,7 @@ app.config(['$routeProvider', function($routeProvider) {
 							}
 
 						});
-						
+
 						return DetectRTC;
 					})
 				}).catch(err => { console.log(err)})
@@ -338,7 +338,7 @@ if (navigator.mozGetUserMedia) {
 		};
 	}
 
-	
+
 
 } else if (navigator.webkitGetUserMedia) {
 	console.log('This appears to be Chrome');
